@@ -1,0 +1,26 @@
+module tb_digital_components;
+    reg clk, reset;
+    wire [3:0] ring_out, johnson_out, up_down_count;
+    wire [2:0] mod_count, triple_count;
+    
+    ring_counter ring_inst(clk, reset, ring_out);
+    johnson_counter johnson_inst(clk, reset, johnson_out);
+    mod_counter mod_inst(clk, reset, mod_count);
+    bit_triple_counter triple_inst(clk, reset, triple_count);
+    
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+    
+    initial begin
+        reset = 1;
+        #20 reset = 0;
+        #200 $finish;
+    end
+    
+    initial begin
+        $monitor("Time=%0t Ring=%b Johnson=%b Mod=%b Triple=%b", 
+                 $time, ring_out, johnson_out, mod_count, triple_count);
+    end
+endmodule
