@@ -1,0 +1,30 @@
+module tb_arithmetic;
+    reg [3:0] a, b;
+    wire [3:0] sum, diff, excess3;
+    wire carry, borrow, parity;
+    wire eq, gt, lt;
+    
+    adder add_inst(a, b, sum, carry);
+    subtractor sub_inst(a, b, diff, borrow);
+    comparator comp_inst(a, b, eq, gt, lt);
+    excess3_converter exc_inst(a, excess3);
+    parity_generator par_inst(a, parity);
+    
+    initial begin
+        a = 4'b0101;
+        b = 4'b0011;
+        #10;
+        a = 4'b1001;
+        b = 4'b0110;
+        #10;
+        a = 4'b1111;
+        b = 4'b1111;
+        #10;
+        $finish;
+    end
+    
+    initial begin
+        $monitor("Time=%0t A=%b B=%b Sum=%b Diff=%b EQ=%b GT=%b LT=%b", 
+                 $time, a, b, sum, diff, eq, gt, lt);
+    end
+endmodule
