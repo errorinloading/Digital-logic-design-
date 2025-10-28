@@ -1,0 +1,9 @@
+module sr_latch(
+    input s,
+    input r,
+    output q,
+    output qbar
+);
+    nor nor1(q, r, qbar);
+    nor nor2(qbar, s, q);
+endmodule
