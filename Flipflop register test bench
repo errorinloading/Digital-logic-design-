@@ -1,0 +1,30 @@
+module tb_ff_register;
+    reg clk, reset, d, shift_in;
+    wire q;
+    wire [3:0] shift_out;
+    
+    d_flip_flop dff_inst(clk, reset, d, q);
+    shift_registershift_inst(clk, reset, shift_in, shift_out);
+    
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+    
+    initial begin
+        reset = 1;
+        d = 0;
+        shift_in = 1;
+        #20 reset = 0;
+        #10 d = 1;
+        #10 shift_in = 0;
+        #10 d = 0;
+        #10 shift_in = 1;
+        #50 $finish;
+    end
+    
+    initial begin
+        $monitor("Time=%0t D=%b Q=%b ShiftIn=%b ShiftOut=%b", 
+                 $time, d, q, shift_in, shift_out);
+    end
+endmodule
